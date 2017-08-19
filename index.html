@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script src = "js/brother.js"></script>
+	<script src = "js/csvParser.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/index.css"></link>
+	<link rel = "stylesheet" type = "text/css" href = "css\font-awesome-4.6.3\css\font-awesome.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Information about Beta Theta Pi at the University of Rochester">
+	<meta name="keywords" content="BTP, Beta Theta Pi, University of Rochester, Frat, fraternity, Beta">
+  	<meta name="author" content="Alex McKinley">
+	<link rel="icon" type="image/ico" href="http://beta.org/wp-content/uploads/2013/10/Beta-Theta-Pi-Favicon.png">
+	<title>University of Rochster Beta Theta Pi</title>
+	<script>
+  		(function(i,s,o,g,r,a,m)
+  		{
+  			i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+  			{
+  				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  			})
+  			(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  		ga('create', 'UA-96195371-1', 'auto');
+  		ga('send', 'pageview');
+
+	</script>
+</head>
+<body>
+	<header>
+		<table style="padding-top: 20px; margin-left: 10px; margin-right: 10px">
+			<tr>
+				<td><a href = ""><img src = "img/Beta-Theta-Pi-Horizontal-Identity-sm.png"></td></a>
+				<td class = "menu">
+					<ul style="list-style-type: none; margin:auto">
+						<li><a href = "about.html">About</a></li>
+						<li><a href = "members.html">Members</a></li>
+						<li><a href = "events.html">Events</a></li>
+						<li><a href = "leadership.html">Leadership</a></li>
+						<li><a href = "demographics.html">Demographics</a></li>
+					</ul>
+				</td>
+				<td><a href ="https://www.rochester.edu"><img src = "img/UR-header-logo.png" style="height: 64px; width: 300px; "></a></td>
+			</tr>
+		</table>
+	</header>
+	<div style = "height: 125px"></div>
+	<div style="margin-bottom: 20px; width: 100%; text-align: center">
+		<a href = "https://www.beta.org"  target="_blank" style = "margin:auto"><img src = "img/beta.jpg" style = "margin-right:0; width:100%"></a>
+	</div>
+	<a href="https://www.billhighway.com/aph/forChapters/v2/donate.aspx?d=GMfYjFzd7D0%3d" target="_blank" style="CURSOR: hand">
+		<img src="http://www.billhighway.com/images/links/billhighway-007.gif" alt="Collect donations online with billhighway.com!" border="0">
+	</a>
+	<div class = "member-header">
+		<h2>Welome Beta Theta Pi's Pledge Class of Spring 2017!</h2>
+	</div>
+	<div class = "featured-members">
+		<div class = "memberPicture">
+				<img src = "img/ic_keyboard_arrow_right_black_24dp_2x.png" class = "arrow right">
+				<img src = "img/ic_keyboard_arrow_left_black_24dp_2x.png" class = "arrow left">
+				<div class = 'photo-container'></div>
+		</div>
+		<div class = "member-blurb">
+			<p id = 'name'></p>
+			<p id = "major"><a style="font-weight: bold">Major: </a><p>
+			<p id = "hometown"><a style="font-weight: bold">Hometown: </a><p>
+			<p id = 'about'>About/post grad plans go here</p>
+		</div>
+	</div>
+	<footer>
+		<table class = "footer-table">
+			<tr>
+				<td><p>BETA THETA PI</p></td>
+				<td><p id = "presName"><br>Beta Theta Pi <br>Rochester Colony President <br> <a id = "presEmail">Contact Us</a></p></td>
+				<td>
+					<div class = 'social-container'>
+						<a href = "https://www.facebook.com/Beta-Theta-Pi-University-of-Rochester-1582668235351626/" target="_blank"><i class = "fa fa-facebook fa-lg"></i></a>
+						<a href = "https://www.twiter.com" target="_blank"><i class = "fa fa-twitter fa-lg"></i></a>
+						<a href = "https://youtube.com" target="_blank"><i class = "fa fa-youtube fa-lg"></i></a>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<hr>
+		<p class = "copyright">&copy 2017 University Of Rochester Colony - Beta Theta Pi</p>
+	</footer>
+	<script>
+		var brothers = Array();
+		var featured = Array();
+		var featuredIndex = 0;
+		var main = function()
+		{
+			$('.construction-background').css("height", $('body').height());
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function()
+			{
+				if(xhttp.readyState == 4 && xhttp.status == 200)
+				{
+					var members = xhttp.responseText.split("\n");
+					for(var i = 0; i < members.length; i++)
+					{
+						var parse = new parser();
+						var traits = [];
+						parse.evaluate(members[i],traits);
+						if(traits[0] != "")
+						{
+							brothers.push(new Brother(traits[0],traits[1], traits[2], traits[6], traits[5], traits[9], traits[10]));
+						}
+					}
+					for (var i = 0 ; i<brothers.length; i++)
+					{
+						if(brothers[i].featured != null&&brothers[i].featured.trim() == "TRUE")
+						{
+							featured.push(brothers[i]);
+						}
+					}
+					$('.photo-container').append("<img src = 'img/brothers/" + featured[0].photo + "' class = 'featured-photo' id = 'featured'>");
+					$("#name").append(featured[0].name);
+					$("#major").append(featured[0].major);
+					$("#hometown").append(featured[0].hometown);
+					$("#about").text(featured[0].about);
+				}
+			}
+			xhttp.open("get", "data/members.csv");
+			xhttp.send();
+			var xhttp2 = new XMLHttpRequest();
+			xhttp2.onreadystatechange = function()
+			{
+				if(xhttp2.readyState == 4 && xhttp2.status == 200)
+				{
+					var parser = new DOMParser();
+					var xmlDoc = parser.parseFromString(xhttp2.responseText,"text/xml");
+					$('#presName').prepend(xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue);
+					$("#presEmail").attr("href", "mailto:"+	xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue);	
+				}
+			}
+			xhttp2.open("get", "data/strings.xml");
+			xhttp2.send();
+			$('.arrow').click(function()
+			{
+					if($(this).hasClass("right"))
+					{
+						featuredIndex+=1;
+						if(featuredIndex >= featured.length)
+						{
+							featuredIndex = 0;
+						}
+					}
+					else
+					{
+						featuredIndex -= 1;
+						if(featuredIndex < 0)
+						{
+							featuredIndex = featured.length-1;
+						}
+					}
+					$("#name").text(featured[featuredIndex].name);
+					$("#major")[0].childNodes[1].nodeValue = (featured[featuredIndex].major);
+					$("#hometown")[0].childNodes[1].nodeValue = (featured[featuredIndex].hometown);
+					$("#about").text(featured[featuredIndex].about);
+					$("#featured").attr('src', 'img/brothers/' + featured[featuredIndex].photo);
+			});
+		}
+		$(document).ready(main);
+	</script>
+</body>

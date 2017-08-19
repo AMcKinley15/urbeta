@@ -1,0 +1,43 @@
+
+<leadership>
+	<president>
+		<name>Zachary Marshall-Carter</name>
+		<email>zmarsha3@u.rochester.edu</email>
+		<title>President</title>
+	</president>
+	<brotherhood>
+		<name>Ryan Walton</name>
+		<email>rwalton5@u.rochester.edu</email>
+		<title>Vice President of Brotherhood</title>
+	</brotherhood>
+	<programming>
+		<name>Stephen Chess</name>
+		<email>schess@u.rochester.edu</email>
+		<title>Vice President of Programming</title>
+	</programming>
+	<recruitment>
+		<name>Seyed Ali Biashad</name>
+		<email>sbiashad@u.rochester.edu</email>
+		<title>Vice President of Recruitment</title>
+	</recruitment>
+	<risk>
+		<name>Ryan Fanning</name>
+		<email>rfannin2@u.rochester.edu</email>
+		<title>Vice President of Risk</title>
+	</risk>
+	<education>
+		<name>Chris Muller</name>
+		<email>cmuller6@u.rochester.edu</email>
+		<title>Vice President of Education</title>
+	</education>
+	<finance>
+		<name>Ari Geller</name>
+		<email>ageller2@u.rochester.edu</email>
+		<title>Vice President of Finance</title>
+	</finance>
+	<communications>
+		<name>Mathew Chiang</name>
+		<email>mchiang8@u.rochester.edu</email>
+		<title>Vice President of Communications</title>
+	</communications>
+</leadership>

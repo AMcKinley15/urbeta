@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script src ="js/brother.js"></script>
+	<script src = "js/csvParser.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/index.css"></link>
+	<link rel = "stylesheet" type = "text/css" href = "css\font-awesome-4.6.3\css\font-awesome.css">
+	<link rel = "stylesheet" type = "text/css" href = "css\members.css">
+	<meta charset="UTF-8">
+	<link rel="icon" type="image/ico" href="http://beta.org/wp-content/uploads/2013/10/Beta-Theta-Pi-Favicon.png">
+	<title>University of Rochster Beta Theta Pi</title>
+</head>
+<body>
+	<header>
+		<table style="padding-top: 20px; margin-left: 10px; margin-right: 10px">
+			<tr>
+				<td><a href = "index.html"><img src = "img/Beta-Theta-Pi-Horizontal-Identity-sm.png"></td></a>
+				<td class = "menu">
+					<ul style="list-style-type: none; margin:auto">
+						<li><a href = "about.html">About</a></li>
+						<li><a href = "members.html">Members</a></li>
+						<li><a href = "events.html">Events</a></li>						
+						<li><a href = "leadership.html">Leadership</a></li>
+						<li><a href = "demographics.html">Demographics</a></li>
+					</ul>
+				</td>		
+				<td><a href ="https://www.rochester.edu"><img src = "img/UR-header-logo.png" style="height: 64px; width: 300px; "></a></td>
+			</tr>
+		</table>
+	</header> 
+	<div style = "height: 125px"></div>
+	<div class = 'main'>
+		<h1 class = 'title'>Beta Theta Pi Brothers</h1>
+		<table class = 'members'>
+
+		</table>
+	</div>
+	<footer>
+		<table class = "footer-table">
+			<tr>
+				<td><p>BETA THETA PI</p></td>
+				<td><p id = "presName"><br>Beta Theta Pi <br>Rochester Colony President <br> <a id = "presEmail">Contact Us</a></p></td>
+				<td>
+					<div class = 'social-container'>
+						<a href = "https://www.facebook.com/Beta-Theta-Pi-University-of-Rochester-1582668235351626/"><i class = "fa fa-facebook fa-lg"></i></a>
+						<a href = "https://www.twiter.com"><i class = "fa fa-twitter fa-lg"></i></a>
+						<a href = "https://youtube.com"><i class = "fa fa-youtube fa-lg"></i></a>
+					</div>
+				</td>
+			</tr>
+		</table>
+	<hr>
+	<p class = "copyright">&copy 2017 University Of Rochester Colony - Beta Theta Pi</p>
+	<script>
+		function brotherPopup(brother)
+		{
+				$('.main').append("<div class = 'popup-background'></div>");
+				$('.popup-background').css("height", $('.main').outerHeight()+25+"px");
+				$('.popup-background').css("top", ($('header').outerHeight())+"px");
+				$('body').append("<div class = 'info-popup'>"+
+				"<div class = 'popup-titlebar'><i class=\"fa fa-times\" aria-hidden=\"true\"></i></div>" + "<div class = 'popup-photo-container'>" + 
+				"<img src = 'img/brothers/" + brother.photo + "' class = 'popup-photo'></div>" +"<div class = 'member-blurb'><p style = 'text-align: center; font-size: 20pt'>"+brother.name+"</p><p><a style='font-weight: bold'>Major: </a>"+brother.major+"</p><p><a style='font-weight: bold'>Hometown: </a>"+brother.hometown+"</p><p>"+brother.about+"</p></div>"+"</div>");
+				$('.info-popup').css("top", ("calc("+ $(document).scrollTop()+"px + 25%)"));
+
+				$('.fa-times').click(function()
+				{
+					$('.info-popup').hide();
+					$('.popup-background').hide();
+				});
+				$('.popup-background').click(function()
+				{
+					$('.info-popup').hide();
+					$('.popup-background').hide();
+				});
+		}
+		var brothers = Array();
+		var main = function()
+		{
+			const cols = $(window).width()/240-1	;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function()
+			{
+				if(xhttp.readyState == 4 && xhttp.status == 200)
+				{
+					var members = xhttp.responseText.split("\n");
+					for(var i = 0; i < members.length; i++)
+					{
+						var parse = new parser();
+						var traits = [];
+						parse.evaluate(members[i],traits);
+						if(traits[0] != "")
+						{
+							brothers.push(new Brother(traits[0],traits[1], traits[2], traits[6], traits[5], traits[9], traits[10]));
+						}
+					}
+					var count = 0;
+					for(var i = 0; i<brothers.length/cols-1; i++)
+					{
+						$('.members').append("<tr class = \"row\">");
+						for(var j = 0; j < cols; j++)
+						{
+							try
+							{
+								$('.row').eq(i).append("<td class = 'pic-container'>" + "<img src = \"img/brothers/" + brothers[count].photo +" \" class = \'brother-photo\'><br>" + brothers[count].name + "</td>");
+								brothers[count].container = $('.pic-container').last();
+							}
+							catch(e)
+							{
+								console.log("Error on: " + i);
+							}
+							count++;
+						}
+						$(".members").append("</tr>");
+					}
+					$('.brother-photo').hover(function()
+					{	
+						$(this).height($(this).height() + 20);
+						$(this).width($(this).width() + 20);
+						$(this).parent().css("padding", "0px");
+					}, 
+					function()
+					{
+						$(this).height($(this).height() - 20);
+						$(this).width($(this).width() - 20);
+						$(this).parent().css("padding", "20px");
+					});
+					for(var i = 0; i<brothers.length; i++)
+					{
+						brothers[i].container.click(function()
+						{
+							for(var i = 0; i< brothers.length; i++)
+							{
+								if(brothers[i].container.get(0) == this)
+								{
+									brotherPopup(brothers[i]);
+								}	
+							}
+						});
+					}
+				}	
+			}
+			xhttp.open("get", "data/members.csv");
+			xhttp.send();
+			var xhttp2 = new XMLHttpRequest();
+			xhttp2.onreadystatechange = function()
+			{
+				if(xhttp2.readyState == 4 && xhttp2.status == 200)
+				{
+					var parser = new DOMParser();
+					var xmlDoc = parser.parseFromString(xhttp2.responseText,"text/xml");
+					$('#presName').prepend(xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue);
+					$("#presEmail").attr("href", xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue);	
+				}
+			}
+			xhttp2.open("get", "data/strings.xml");
+			xhttp2.send();
+		}
+		$(document).ready(main);
+	</script>
+</body>

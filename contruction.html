@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/index.css"></link>
+	<!-- INSERT LINK TO NEW CSS HERE !-->
+	<link rel = "stylesheet" type = "text/css" href = "css\font-awesome-4.6.3\css\font-awesome.css">
+	<meta charset="UTF-8">
+	<link rel="icon" type="image/ico" href="http://beta.org/wp-content/uploads/2013/10/Beta-Theta-Pi-Favicon.png">
+	<title>University of Rochster Beta Theta Pi</title>
+</head>
+<body>
+	<header>
+		<table style="padding-top: 20px; margin-left: 10px; margin-right: 10px">
+			<tr>
+				<td><a href = "index.html"><img src = "img/Beta-Theta-Pi-Horizontal-Identity-sm.png"></td></a>
+				<td class = "menu">
+					<ul style="list-style-type: none; margin:auto">
+						<li><a href = "about.html">About</a></li>
+						<li><a href = "members.html">Members</a></li>
+						<li><a href = "events.html">Events</a></li>
+						<li><a href = "leadership.html">Leadership</a></li>
+						<li><a href = "demograhics.html">Demographics</a></li>
+					</ul>
+				</td>
+				<td><a href ="https://www.rochester.edu"><img src = "img/UR-header-logo.png" style="height: 64px; width: 300px; "></a></td>
+			</tr>
+		</table>
+	</header>
+	<div class = "main">
+		<h1>Coming Soon!</h1>
+	</div>
+</body>
+<footer>
+	<table class = "footer-table">
+		<tr>
+			<td><p>BETA THETA PI</p></td>
+			<td><p id = "presName"><br>Beta Theta Pi <br>Rochester Colony President <br> <a id = "presEmail">Contact Us</a></p></td>
+			<td>
+				<div class = 'social-container'>
+					<a href = "https://www.facebook.com/Beta-Theta-Pi-University-of-Rochester-1582668235351626/"><i class = "fa fa-facebook fa-lg"></i></a>
+					<a href = "https://www.twiter.com"><i class = "fa fa-twitter fa-lg"></i></a>
+					<a href = "https://youtube.com"><i class = "fa fa-youtube fa-lg"></i></a>	
+				</div>
+			</td>
+		</tr>
+	</table>
+	<hr>
+		<script>
+		var main = function()
+		{
+			var xhttp2 = new XMLHttpRequest();
+			xhttp2.onreadystatechange = function()
+			{
+				if(xhttp2.readyState == 4 && xhttp2.status == 200)
+				{
+					var parser = new DOMParser();
+					var xmlDoc = parser.parseFromString(xhttp2.responseText,"text/xml");
+					$('#presName').prepend(xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue);
+					$("#presEmail").attr("href", xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue);	
+				}
+			}
+			xhttp2.open("get", "data/strings.xml");
+			xhttp2.send();
+		}
+		$(document).ready(main);
+	</script>
+</footer>

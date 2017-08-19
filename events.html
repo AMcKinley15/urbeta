@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/index.css"></link>
+	<link rel ="stylesheet" type = "text/css" href ="css/events.css"></link>
+	<link rel = "stylesheet" type = "text/css" href = "css\font-awesome-4.6.3\css\font-awesome.css">
+	<meta charset="UTF-8">
+	<link rel="icon" type="image/ico" href="http://beta.org/wp-content/uploads/2013/10/Beta-Theta-Pi-Favicon.png">
+	<title>University of Rochster Beta Theta Pi</title>
+</head>
+<body>
+	<header>
+		<table style="padding-top: 20px; margin-left: 10px; margin-right: 10px">
+			<tr>
+				<td><a href ="index.html"><img src = "img/Beta-Theta-Pi-Horizontal-Identity-sm.png"></td></a>
+				<td class = "menu">
+					<ul style="list-style-type: none; margin:auto">
+						<li><a href = "about.html">About</a></li>
+						<li><a href = "members.html">Members</a></li>
+						<li><a href = "events.html">Events</a></li>
+						<li><a href = "leadership.html">Leadership</a></li>
+						<li><a href = "demographics.html">Demographics</a></li>
+					</ul>
+				</td>
+				<td><a href ="https://www.rochester.edu"><img src = "img/UR-header-logo.png" style="height: 64px; width: 300px; "></a></td>
+			</tr>
+		</table>
+	</header>
+	<div style = "height: 125px"></div>
+		<div class = 'main'>
+			<div class = 'event'>
+				<h1 style = 'text-align: center;'>Events</h1>
+			</div>	
+		</div>
+<footer>
+	<table class = "footer-table">
+		<tr>
+			<td><p>BETA THETA PI</p></td>
+			<td><p id = "presName"><br>Beta Theta Pi <br>Rochester Colony President <br> <a id = "presEmail">Contact Us</a></p></td>
+			<td>
+				<div class = 'social-container'>
+					<a href = "https://www.facebook.com/Beta-Theta-Pi-University-of-Rochester-1582668235351626/"><i class = "fa fa-facebook fa-lg"></i></a>
+					<a href = "https://www.twiter.com"><i class = "fa fa-twitter fa-lg"></i></a>
+					<a href = "https://youtube.com"><i class = "fa fa-youtube fa-lg"></i></a>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<hr>
+	<p class = "copyright">&copy 2017 University Of Rochester Colony - Beta Theta Pi</p>
+	</footer>
+	<script>
+		class Event
+		{
+			constructor(array)
+			{
+				this.title = array[0];
+				this.date = array[1];
+				this.time = array[2];
+				this.location = array[3];
+				this.note = array[4];
+			}
+		}
+		$(document).ready(function()
+		{
+			var xhttp2 = new XMLHttpRequest();
+			xhttp2.onreadystatechange = function()
+			{
+				if(xhttp2.readyState == 4 && xhttp2.status == 200)
+				{
+					var parser = new DOMParser();
+					var xmlDoc = parser.parseFromString(xhttp2.responseText,"text/xml");
+					$('#presName').prepend(xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue);
+					$("#presEmail").attr("href", xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue);	
+				}
+			}
+			xhttp2.open("get", "data/strings.xml");
+			xhttp2.send();
+			var xhttp = loadData();
+			xhttp.open("get", "data/events.csv");
+			xhttp.send();
+		});
+		function addEvent(event)
+		{
+			$('.main').append('<div class = "event">' +
+				'<h3>'+event.title+'</h3>' +
+				'<a style ="font-weight: bold">Date: </a><a>'+event.date+'</a><br><br>' +
+				'<a style ="font-weight: bold">Time: </a><a>'+event.time+'</a><br><br>' +
+				'<a style ="font-weight: bold">Place: </a><a>'+event.location+'</a><br><br>' +
+				'<p>'+event.note+'</p>' +
+				'<p>Please respond to the facebook event below so we know that you are coming!</p>' +
+				'<div class = "fb-container"><a href = '+event.url+'><i class = "fa fa-facebook-official fa-3x"></i></a></div>' +
+				'</div>');
+		}
+		
+		function loadData()
+		{
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() 
+			{
+				if (xhttp.readyState == 4 && xhttp.status == 200) 
+				{
+					var contents = xhttp.responseText;
+					var rows = new Array();
+					var toStart = 0;
+					//doing this instead of split saves from some nasty bugs with copy and paste text.
+					//random endlines that should not be there start showing up after copying in some text.
+					//under hex it looks like 20 20 (2 spaces), however js reads it like an endline, destroying the file format	
+					for(var i = 0; i < contents.length; i++)
+					{
+						var before = getNumBefore(contents,'\"','\n', i);
+						if(before % 2 == 0)
+						{
+							if(i > contents.indexOf('\n'))
+							{
+								rows.push(contents.substring(0,contents.indexOf('\n' , i)));
+								contents = contents.substring(contents.indexOf('\n' , i)+1);
+							}
+							else
+							{
+								rows.push(contents.substring(0,contents.indexOf('\n')));
+								contents = contents.substring(contents.indexOf('\n')+1);
+							}
+							i = 0;
+						}
+						else
+						{
+							i = contents.indexOf('\n', i+1)+1;
+						}
+					}
+					var matrix = new Array(rows.length);
+					for(var i = 0; i<rows.length; i++)
+					{
+						matrix[i] = new Array();
+						while(rows[i] != "") //while there is data to be added to the matrix
+						{
+							var j = rows[i].indexOf(","); //looking for commas and quotation marks, as data that contains a "," is surrounded with ""
+							var k = rows[i].indexOf("\"");
+							if(j===-1&&k===-1)
+							{
+								matrix[i].push(rows[i])
+								rows[i] = "";
+								
+							}
+							else if(j<k || k===-1)//if a comma is before quotation marks or a comma does not exist
+							{
+								matrix[i].push(rows[i].substring(0, j));
+								rows[i] = rows[i].substring(j+1);
+							}
+							else
+							{
+								matrix[i].push(rows[i].substring(k+1, (rows[i].indexOf("\"",k+1))));
+								rows[i] = rows[i].substring((rows[i].indexOf("\"", k+1)+2));
+
+							}
+						}
+						while(matrix[i].length < matrix[0].length)
+						{
+							matrix[i].push(new String());
+						}
+						if(matrix[i][0] == "")
+						{
+							matrix[i] = null;
+						}
+					}
+					var events = Array();
+					for(var i = 0; i<matrix.length; i++)
+					{
+						events.push(new Event(matrix[i]));
+					}
+					console.log(events);
+					for(var i = 0; i< events.length; i++)
+					{
+						addEvent(events[i]);
+					}
+				}
+			}
+			return xhttp;
+		}
+		function getNumBefore(toSearch, target, stop, startPos)
+		{
+			var counter = 0;
+			var i = 0;
+			while(i<startPos || toSearch.charAt(i) != stop)
+			{
+				if(toSearch.charAt(i) === target)
+				{
+					counter++;
+				}
+				i++;
+			}
+			return counter;
+		}
+	</script>
+</body>

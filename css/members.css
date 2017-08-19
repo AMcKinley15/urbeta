@@ -1,0 +1,73 @@
+.brother-photo
+{
+	height: 266px;
+	width: 200px;
+	text-align: center;
+	color:black;
+	cursor: pointer;
+	margin: auto;
+}
+.members
+{
+	width: 75%;
+	margin: auto;
+}
+.pic-container
+{
+	color: black;
+	text-align: center;
+	padding: 20px;
+}
+.title
+{
+	margin: auto;
+	color: black;
+	text-align: center;
+	margin-bottom: 20px;
+}
+.info-popup
+{
+	position: absolute;
+	height: 50vh;
+	min-height: 600px;
+	width: 50vw;
+	margin:auto;
+	left: 25%;
+	border-style: double;
+	border-color: #cccccc;
+	border-width: 5px;
+	border-radius: 10px;
+	background-color: #F6F6F6;
+}
+.popup-background
+{
+	background-color: rgba(125,125,125,.5);
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: inherit;
+}
+.popup-titlebar
+{
+	text-align: right;
+	padding-right: 10px;
+	padding-top: 5px;
+}
+.fa-times
+{
+	cursor: pointer;
+}
+.popup-photo
+{
+	max-height: 300px;
+	max-width: 300px;
+}
+.popup-photo-container
+{
+	text-align: center;
+}
+.member-blurb
+{
+	background-color: inherit;
+}

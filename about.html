@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/index.css"></link>
+	<link rel="stylesheet" type="text/css" href="css/about.css"></link>
+	<link rel = "stylesheet" type = "text/css" href = "css\font-awesome-4.6.3\css\font-awesome.css">
+	<meta charset="UTF-8">
+	<link rel="icon" type="image/ico" href="http://beta.org/wp-content/uploads/2013/10/Beta-Theta-Pi-Favicon.png">
+	<title>University of Rochster Beta Theta Pi</title>
+</head>
+<body>
+	<header>
+		<table style="padding-top: 20px; margin-left: 10px; margin-right: 10px">
+			<tr>
+				<td><a href = "index.html"><img src = "img/Beta-Theta-Pi-Horizontal-Identity-sm.png"></td></a>
+				<td class = "menu">
+					<ul style="list-style-type: none; margin:auto">
+						<li><a href = "about.html">About</a></li>
+						<li><a href = "members.html">Members</a></li>
+						<li><a href = "events.html">Events</a></li>
+						<li><a href = "leadership.html">Leadership</a></li>
+						<li><a href = "demographics.html">Demographics</a></li>
+					</ul>
+				</td>
+				<td><a href ="https://www.rochester.edu"><img src = "img/UR-header-logo.png" style="height: 64px; width: 300px; "></a></td>
+			</tr>
+		</table>
+	</header>
+	<div style = "height: 125px"></div>
+	<div class = 'content'>
+		<h3>Beta Theta Pi at the University of Rochester</h3>
+		<p>One of the newest fraternity at the University of Rochester, Beta Theta Pi is dedicated to developing men of principle for a principled life. Our brotherhood aids the individual, builds the Fraternity and strengthens the host academic institution through lifelong devotion to intellectual excellence, high standards of moral conduct and responsible citizenship. Currently we have 48 active members among our ranks. We are dedicated to broadening our horizons through the events we partake in and the communities we identify with. We have had a variety of successful events including community service at the Gandhi Institute and Bivona Child Advocacy Center and social events such as our Homecoming Cruise.</p>
+		<h3>What is Beta?</h3>
+		<p>Beta Theta Pi is a fraternity dedicated to developing men of principle for a principled life. We hope that every member will live up to the five core values of Beta Theta Pi. To build lasting bonds of friendship and brotherhood Beta calls for mutual assistance, intellectual growth, trust, responsible conduct and integrity.</p>
+		<h3>Beta Theta Pi's National Men of Principle Initiative</h3>
+		<p>	Since the start of Beta’s award-winning Men of Principle initiative in 1998, the Fraternity has seen significant improvements in the areas of academics, recruitment, risk management and leadership development. Before Men of Principle, the Fraternity’s average chapter GPA was just above a 2.8. Today the Fraternity’s GPA has risen to a 3.204, the highest of all fraternities. The average chapter/colony size is 74.4 men, compared to 48.9 in 1997. In 1998 there was an average of 1.95 volunteer advisors per chapter. Today, an average of 8 advisors work with each chapter/colony.<p>
+		<p>With the Men of Principle initiative, Beta gave new voice to the enduring values of the Fraternity. The Initiative was more than a program; it was a deep inner philosophy that demanded integrity from every chapter and all members of the Fraternity. Today, as it was back in 1839, Beta Theta Pi is a shining example across North America for all that is good and true when men come together in a brotherhood of purpose, friendship and fidelity.</p>
+	</div>
+<footer>
+	<table class = "footer-table">
+		<tr>
+			<td><p>BETA THETA PI</p></td>
+			<td><p id = "presName"><br>Beta Theta Pi <br>Rochester Colony President <br> <a id = "presEmail">Contact Us</a></p></td>
+			<td>
+				<div class = 'social-container'>
+					<a href = "https://www.facebook.com/Beta-Theta-Pi-University-of-Rochester-1582668235351626/"><i class = "fa fa-facebook fa-lg"></i></a>
+					<a href = "https://www.twiter.com"><i class = "fa fa-twitter fa-lg"></i></a>
+					<a href = "https://youtube.com"><i class = "fa fa-youtube fa-lg"></i></a>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<hr>
+	<p class = "copyright">&copy 2017 University Of Rochester Colony - Beta Theta Pi</p>
+	</footer>
+	<script>
+		var main = function()
+		{
+			var xhttp2 = new XMLHttpRequest();
+			xhttp2.onreadystatechange = function()
+			{
+				if(xhttp2.readyState == 4 && xhttp2.status == 200)
+				{
+					var parser = new DOMParser();
+					var xmlDoc = parser.parseFromString(xhttp2.responseText,"text/xml");
+					$('#presName').prepend(xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue);
+					$("#presEmail").attr("href", xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue);	
+				}
+			}
+			xhttp2.open("get", "data/strings.xml");
+			xhttp2.send();
+		}
+		$(document).ready(main);
+	</script>
+</body>
