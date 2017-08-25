@@ -49,9 +49,16 @@
 	<div style="margin-bottom: 20px; width: 100%; text-align: center">
 		<a href = "https://www.beta.org"  target="_blank" style = "margin:auto"><img src = "img/beta.jpg" style = "margin-right:0; width:100%"></a>
 	</div>
-	<a href="https://www.billhighway.com/aph/forChapters/v2/donate.aspx?d=GMfYjFzd7D0%3d" target="_blank" style="CURSOR: hand">
-		<img src="http://www.billhighway.com/images/links/billhighway-007.gif" alt="Collect donations online with billhighway.com!" border="0">
-	</a>
+	<div class = donateWrapper style = "width: 100%">
+	<input type="button" value="Donate Here" class = "button donate">
+		<script>
+			function donate()
+			{
+				window.open("https://www.billhighway.com/aph/forChapters/v2/donate.aspx?d=GMfYjFzd7D0%3d");
+			}
+			$('.button').click(donate);
+		</script>
+	</div>
 	<div class = "member-header">
 		<h2>Welome Beta Theta Pi's Pledge Class of Spring 2017!</h2>
 	</div>
@@ -105,7 +112,7 @@
 						parse.evaluate(members[i],traits);
 						if(traits[0] != "")
 						{
-							brothers.push(new Brother(traits[0],traits[1], traits[2], traits[6], traits[5], traits[9], traits[10]));
+							brothers.push(new Brother(traits[0],traits[1], traits[2], traits[3], traits[4], traits[5], traits[6], traits[7], traits[8], traits[9], traits[10], traits[11]));
 						}
 					}
 					for (var i = 0 ; i<brothers.length; i++)

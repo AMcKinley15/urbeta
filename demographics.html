@@ -3,8 +3,10 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
 	<script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+	<script src = "js/csvParser.js"></script>
+	<script src = "js/brother.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/index.css"></link>
-	<!-- INSERT LINK TO NEW CSS HERE !-->
+	<link rel = "stylesheet" type = "text/css" href = "css/demographics.css"></link>
 	<link rel = "stylesheet" type = "text/css" href = "css\font-awesome-4.6.3\css\font-awesome.css">
 	<meta charset="UTF-8">
 	<link rel="icon" type="image/ico" href="http://beta.org/wp-content/uploads/2013/10/Beta-Theta-Pi-Favicon.png">
@@ -14,8 +16,8 @@
 	<header>
 		<table style="padding-top: 20px; margin-left: 10px; margin-right: 10px">
 			<tr>
-				<td><a href = "index.html"><img src = "img/Beta-Theta-Pi-Horizontal-Identity-sm.png"></td></a
->				<td class = "menu">
+				<td><a href = "index.html"><img src = "img/Beta-Theta-Pi-Horizontal-Identity-sm.png"></td></a>
+				<td class = "menu">
 					<ul style="list-style-type: none; margin:auto">
 						<li><a href = "about.html">About</a></li>
 						<li><a href = "members.html">Members</a></li>
@@ -29,6 +31,20 @@
 		</table>
 	</header>
 	<div style = "height: 125px"></div>
+	<div class = "main">
+		<table class = "statsTable">
+			<tr>
+				<td id = "classSize"></td>
+				<td id = "chapterSize"></td>
+				<td id = "eagleSize"></td>
+			</tr>
+			<tr>
+				<td id = "pledgeLable"></td>
+				<td>Active Brothers</td>
+				<td>Eagle Scouts</td>
+			</tr>
+		</table>
+	</div>
 </body>
 <footer>
 	<table class = "footer-table">
@@ -47,8 +63,14 @@
 	<hr>
 	<p class = "copyright">&copy 2017 University Of Rochester Colony - Beta Theta Pi</p>
 	<script>
+		var eagles = 0;
+		var brothers = Array();
+		var pledgeClass = "";
+		var classes = Array();
 		var main = function()
 		{
+
+			var xhttp2 = new XMLHttpRequest();
 			var xhttp2 = new XMLHttpRequest();
 			xhttp2.onreadystatechange = function()
 			{
@@ -57,11 +79,45 @@
 					var parser = new DOMParser();
 					var xmlDoc = parser.parseFromString(xhttp2.responseText,"text/xml");
 					$('#presName').prepend(xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue);
-					$("#presEmail").attr("href", xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue);	
+					$("#presEmail").attr("href", xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue);
+					pledgeClass = xmlDoc.getElementsByTagName("pledgeclass")[0].childNodes[0].nodeValue;
+					console.log(pledgeClass);
 				}
 			}
 			xhttp2.open("get", "data/strings.xml");
 			xhttp2.send();
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function()
+			{
+				if(xhttp.readyState == 4 && xhttp.status == 200 && xhttp2.readyState == 4 && xhttp2.status == 200)
+				{
+					var members = xhttp.responseText.split("\n");
+					for(var i = 0; i < members.length; i++)
+					{
+						var parse = new parser();
+						var traits = [];
+						parse.evaluate(members[i],traits);
+						if(traits[0] != "")
+						{
+							brothers.push(new Brother(traits[0],traits[1], traits[2], traits[3], traits[4], traits[5], traits[6], traits[7], traits[8], traits[9], traits[10], traits[11]));
+						}
+					}
+					for(var i = 0; i < brothers.length-1; i++)
+					{
+						if(brothers[i].isEagle == "Yes")
+						{
+							eagles++;
+						}
+   						classes[brothers[i].pledgeClass] = 1 + (classes[brothers[i].pledgeClass] || 0);
+					}
+					$('#chapterSize').text(brothers.length);
+					$('#pledgeLable').text("Brothers in " + pledgeClass);
+					$('#classSize').text(classes[pledgeClass]);
+					console.log(classes);
+				}
+			}
+			xhttp.open("get", "data/members.csv");
+			xhttp.send();
 		}
 		$(document).ready(main);
 	</script>

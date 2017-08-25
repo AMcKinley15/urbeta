@@ -181,7 +181,7 @@ footer
 	position:relative;
 	padding:6px 15px;
 	left:-8px;
-	border:2px solid #207cca;
+	border:5px solid #207cca;
 	background-color:#207cca;
 	color:#fafafa;
 	font-size: 12px;	
@@ -194,4 +194,11 @@ footer
 {
 	background-color:#fafafa;
 	color:#207cca;
+}
+.donate
+{
+	display: block;
+	margin:0 auto;
+	margin-bottom: 15px;
+	font-size: 24pt;
 }

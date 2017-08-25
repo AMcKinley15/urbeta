@@ -1,0 +1,8 @@
+.statsTable
+{
+	width: 80%;
+	color: black;
+	margin: 0 auto;
+	text-align: center;
+	table-layout: fixed;
+}
