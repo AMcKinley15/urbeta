@@ -32,6 +32,7 @@
 	</header>
 	<div style = "height: 125px"></div>
 	<div class = "main">
+		<h1 class = "title">The Brothers of Beta Theta Pi</h1>
 		<table class = "statsTable">
 			<tr>
 				<td id = "classSize"></td>
@@ -42,6 +43,10 @@
 				<td id = "pledgeLable"></td>
 				<td>Active Brothers</td>
 				<td>Eagle Scouts</td>
+			</tr>
+			<tr>
+				<td>
+				</td>
 			</tr>
 		</table>
 	</div>
@@ -112,6 +117,7 @@
 					}
 					$('#chapterSize').text(brothers.length);
 					$('#pledgeLable').text("Brothers in " + pledgeClass);
+					$('#eagleSize').text(eagles);
 					$('#classSize').text(classes[pledgeClass]);
 					console.log(classes);
 				}
