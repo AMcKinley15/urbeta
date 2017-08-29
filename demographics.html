@@ -5,7 +5,7 @@
 	<script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
 	<script src = "js/csvParser.js"></script>
 	<script src = "js/brother.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/index.css"></link>
+	<link rel = "stylesheet" type="text/css" href="css/index.css"></link>
 	<link rel = "stylesheet" type = "text/css" href = "css/demographics.css"></link>
 	<link rel = "stylesheet" type = "text/css" href = "css\font-awesome-4.6.3\css\font-awesome.css">
 	<meta charset="UTF-8">
@@ -33,7 +33,22 @@
 	</header>
 	<div style = "height: 125px"></div>
 	<div class = "main">
-		
+		<table class = "statsTable">
+			<tr>
+				<td id = "classSize"></td>
+				<td id = "chapterSize"></td>
+				<td id = "avgGPA">3.31</td>
+			</tr>
+			<tr>
+				<td id = "pledgeLable"></td>
+				<td>Active Brothers</td>
+				<td>Average GPA</td>
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+		</table>
+		<canvas id="majorChart" width="400" height="400"></canvas>
 	</div>
 </body>
 <footer>
@@ -54,10 +69,10 @@
 		var eagles = 0;
 		var brothers = Array();
 		var pledgeClass = "";
-		var classes = Array()	;
+		var classes = Array();
+		var majors = Array();
 		var main = function()
 		{
-
 			var xhttp2 = new XMLHttpRequest();
 			var xhttp2 = new XMLHttpRequest();
 			xhttp2.onreadystatechange = function()
@@ -69,7 +84,6 @@
 					$('#presName').prepend(xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue);
 					$("#presEmail").attr("href", xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue);
 					pledgeClass = xmlDoc.getElementsByTagName("pledgeclass")[0].childNodes[0].nodeValue;
-					console.log(pledgeClass);
 				}
 			}
 			xhttp2.open("get", "data/strings.xml");
@@ -97,17 +111,63 @@
 							eagles++;
 						}
    						classes[brothers[i].pledgeClass] = 1 + (classes[brothers[i].pledgeClass] || 0);
+   						for(var j = 0; j < brothers[i].major.length; j++)
+   						{
+   							majors[(brothers[i].major[j]+"").trim()] = 1 + (majors[(brothers[i].major[j]+"").trim()] || 0);
+   						}
 					}
 					$('#chapterSize').text(brothers.length);
 					$('#pledgeLable').text("Brothers in " + pledgeClass);
 					$('#eagleSize').text(eagles);
 					$('#classSize').text(classes[pledgeClass]);
-					console.log(classes);
+
+					var majorNames = Object.keys(majors);
+					var majorData = Array();
+					var colors = Array();
+					for(var key in majors)
+					{
+						majorData.push(majors[key]);
+						colors.push(getRandomColor());
+					}
+					//chart stuff
+					var ctx = document.getElementById("majorChart").getContext('2d');
+					var chart = new Chart(ctx, {
+					    // The type of chart we want to create
+					    type: 'pie',
+
+					    // The data for our dataset
+					    data: {
+					        labels: majorNames,
+					        datasets: [{
+					            label: "Majors",
+					            backgroundColor: colors,
+					            borderColor: "rgb(255,255,255)",
+					            data: majorData,
+					        }]
+					    },
+
+					    // Configuration options go here
+					    options: 
+					    {
+					    	segmentShowStroke: false
+					    }
+					});
+					console.log(majorData);
+					console.log(majorNames);
 				}
 			}
-			xhttp.open("get", "data/members.csv");
+			xhttp.open("get", "data/members.csv", true);
 			xhttp.send();
 		}
 		$(document).ready(main);
+
+		function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 	</script>
 </footer>

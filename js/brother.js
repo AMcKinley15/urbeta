@@ -7,10 +7,15 @@ var Brother = function(name, roll, photo, gradYear, pledgeClass,
 	this.gradYear = gradYear;
 	this.pledgeClass = pledgeClass;
 	this.hometown = hometown;
-	this.major = major;
+	this.major = (major + "").split(",");
 	this.isEagle = isEagle;
 	this.activities = activities;
 	this.about = about;
 	this.featured = featured;
 	this.isEboard = isEboard;
+}
+function splitOnComma(string)
+{
+	var x = "hello, world";
+	return x.split(",");
 }
