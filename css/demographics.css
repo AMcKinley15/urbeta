@@ -16,3 +16,11 @@ td
 {
 	font-size: 14pt;
 }
+.text
+{
+	font-size: 20pt;
+}
+.paddedTd
+{
+	padding-right: 20px;
+}

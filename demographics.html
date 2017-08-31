@@ -35,20 +35,27 @@
 	<div class = "main">
 		<table class = "statsTable">
 			<tr>
-				<td id = "classSize"></td>
-				<td id = "chapterSize"></td>
-				<td id = "avgGPA">3.31</td>
+				<td id = "classSize" class = "text"></td>
+				<td id = "chapterSize" class = "text"></td>
+				<td id = "avgGPA" class = "text">3.31</td>
 			</tr>
 			<tr>
-				<td id = "pledgeLable"></td>
-				<td>Active Brothers</td>
-				<td>Average GPA</td>
-			</tr>
-			<tr>
-				<td></td>
+				<td id = "pledgeLable" class = "text"></td>
+				<td class = "text">Active Brothers</td>
+				<td class = "text">Average GPA</td>
 			</tr>
 		</table>
-		<canvas id="majorChart" width="400" height="400"></canvas>
+		<table class = "statsTable" style="padding-top: 50px">
+			<tr>
+				<td>Majors</td>
+				<td>Home States &amp Countries</td>
+			</tr>
+			<tr>
+				<td colspan="1" class = "paddedTd"><canvas id="majorChart" width="400" height="400"></canvas></td>
+				<td colspan="1"><canvas id="stateChart" width="400" height="400"></canvas></td>
+			</tr>
+		</table>
+		
 	</div>
 </body>
 <footer>
@@ -71,6 +78,7 @@
 		var pledgeClass = "";
 		var classes = Array();
 		var majors = Array();
+		var states = Array();
 		var main = function()
 		{
 			var xhttp2 = new XMLHttpRequest();
@@ -111,6 +119,7 @@
 							eagles++;
 						}
    						classes[brothers[i].pledgeClass] = 1 + (classes[brothers[i].pledgeClass] || 0);
+   						states[brothers[i].hometown] = 1 + (states[brothers[i].hometown] || 0);
    						for(var j = 0; j < brothers[i].major.length; j++)
    						{
    							majors[(brothers[i].major[j]+"").trim()] = 1 + (majors[(brothers[i].major[j]+"").trim()] || 0);
@@ -124,6 +133,13 @@
 					var majorNames = Object.keys(majors);
 					var majorData = Array();
 					var colors = Array();
+
+					var stateNames = Object.keys(states);
+					var stateData = Array();
+					for(var key in states)
+					{
+						stateData.push(states[key]);
+					}
 					for(var key in majors)
 					{
 						majorData.push(majors[key]);
@@ -149,11 +165,39 @@
 					    // Configuration options go here
 					    options: 
 					    {
-					    	segmentShowStroke: false
+					    	segmentShowStroke: false,
+					    	legend: 
+					    	{
+					    		display: false
+					    	}
 					    }
 					});
-					console.log(majorData);
-					console.log(majorNames);
+					var ctx = document.getElementById("stateChart").getContext('2d');
+					var chart = new Chart(ctx, {
+					    // The type of chart we want to create
+					    type: 'pie',
+
+					    // The data for our dataset
+					    data: {
+					        labels: stateNames,
+					        datasets: [{
+					            label: "States",
+					            backgroundColor: colors,
+					            borderColor: "rgb(255,255,255)",
+					            data: stateData,
+					        }]
+					    },
+
+					    // Configuration options go here
+					    options: 
+					    {
+					    	segmentShowStroke: false,
+					    	legend: 
+					    	{
+					    		display: false
+					    	}
+					    }
+					});
 				}
 			}
 			xhttp.open("get", "data/members.csv", true);
