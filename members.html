@@ -76,7 +76,7 @@
 		var brothers = Array();
 		var main = function()
 		{
-			const cols = $(window).width()/240-1	;
+			const cols = $(window).width()/240-1;
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function()
 			{
@@ -99,6 +99,10 @@
 						$('.members').append("<tr class = \"row\">");
 						for(var j = 0; j < cols; j++)
 						{
+							if(brothers[count] == null || brothers[count].name == null)
+							{
+								break;
+							}
 							try
 							{
 								$('.row').eq(i).append("<td class = 'pic-container'>" + "<img src = \"img/brothers/" + brothers[count].photo +" \" class = \'brother-photo\'><br>" + brothers[count].name + "</td>");
@@ -126,6 +130,10 @@
 					});
 					for(var i = 0; i<brothers.length; i++)
 					{
+						if(brothers[i] == null || brothers[i].container == null)
+						{
+							break;
+						}
 						brothers[i].container.click(function()
 						{
 							for(var i = 0; i< brothers.length; i++)
