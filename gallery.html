@@ -68,7 +68,7 @@
 		var nextPhoto = function()
 		{
 			photoNumber++;
-			while(!UrlExists("img/gallery/DSC_"+ ("0000" + photoNumber).slice(-4) + ".jpg"))
+			while(!UrlExists("img/gallery/tn_DSC_"+ ("0000" + photoNumber).slice(-4) + ".jpg"))
 			{
 				photoNumber++;
 				if(photoNumber > maxPhoto)
@@ -76,13 +76,13 @@
 					photoNumber = minPhoto;
 				}
 			}
-			$('.photo').attr("src", "img/gallery/DSC_"+ ("0000" + photoNumber).slice(-4) + ".jpg");
+			$('.photo').attr("src", "img/gallery/tn_DSC_"+ ("0000" + photoNumber).slice(-4) + ".jpg");
 			console.log("hi");
 		}
 		var prevPhoto = function()
 		{
 			photoNumber--;
-			while(!UrlExists("img/gallery/DSC_"+ ("0000" + photoNumber).slice(-4) + ".jpg"))
+			while(!UrlExists("img/gallery/tn_DSC_"+ ("0000" + photoNumber).slice(-4) + ".jpg"))
 			{
 				photoNumber--;
 				if(photoNumber < minPhoto)
@@ -90,7 +90,7 @@
 					photoNumber = maxPhoto;
 				}
 			}
-			$('.photo').attr("src", "img/gallery/DSC_"+ ("0000" + photoNumber).slice(-4) + ".jpg");
+			$('.photo').attr("src", "img/gallery/tn_DSC_"+ ("0000" + photoNumber).slice(-4) + ".jpg");
 		}
 		function UrlExists(url)
 		{
