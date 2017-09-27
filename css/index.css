@@ -16,6 +16,11 @@ body
 	color: #CCCCCC;	
 	background-color: #F0F0F0;
 }
+h1
+{
+	text-align: center;
+	color: black;
+}
 .menu
 {
 	width: 75%;
