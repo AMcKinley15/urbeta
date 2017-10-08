@@ -1,0 +1,26 @@
+{
+  "name": "html",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amckinley15/urbeta.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amckinley15/urbeta/issues"
+  },
+  "homepage": "https://github.com/amckinley15/urbeta#readme"
+}
