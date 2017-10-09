@@ -49,7 +49,7 @@
 		<table class = "statsTable" style="padding-top: 50px">
 			<tr>
 				<td>Majors</td>
-				<td>Home States &amp Countries</td>
+				<td>Home States &amp; Countries</td>
 			</tr>
 			<tr>
 				<td colspan="1" class = "paddedTd"><canvas id="majorChart" width="400" height="400"></canvas></td>
@@ -72,7 +72,7 @@
 		</tr>
 	</table>
 	<hr>
-	<p class = "copyright">&copy 2017 University Of Rochester Colony - Beta Theta Pi</p>
+	<p class = "copyright">&copy; 2017 University Of Rochester Colony - Beta Theta Pi</p>
 	<script>
 		var eagles = 0;
 		var brothers = Array();
@@ -108,7 +108,7 @@
 						var parse = new parser();
 						var traits = [];
 						parse.evaluate(members[i],traits);
-						if(traits[0] != "")
+						if(traits[0] != null&&traits[0] != "")
 						{
 							brothers.push(new Brother(traits[0],traits[1], traits[2], traits[3], traits[4], traits[5], traits[6], traits[7], traits[8], traits[9], traits[10], traits[11]));
 						}
